@@ -1,0 +1,97 @@
+---
+title: "Iris: On-Device Object Detection with YOLO11s"
+sidebarTitle: "Iris"
+description: "Iris is an experimental Android app that runs YOLO11s for real-time object detection entirely on-device with CameraX — no server, no internet required."
+---
+
+Iris is an experimental Android project that pushes on-device AI inference directly onto a mobile device. Using a YOLO11s model integrated with the Android CameraX API, Iris performs real-time object detection frame-by-frame — entirely locally, with no network calls, no cloud backend, and no latency penalty from a round-trip to a server. It's a hands-on exploration of what modern mobile hardware can do with a compact, quantized detection model running at the edge.
+
+<Warning>
+  Iris is **experimental**. The model integration, inference pipeline, and public-facing API are all subject to significant change. It is not intended for production use. Expect rough edges, and check the [GitHub repository](https://github.com/danielitoCode/Iris) for the latest state of development.
+</Warning>
+
+## How It Works
+
+1. **CameraX live feed** — Iris uses Jetpack CameraX to open a live camera preview and attach an `ImageAnalysis` use case that feeds frames into the inference pipeline.
+2. **YOLO11s on-device model** — the YOLO11s model file is loaded locally at startup (no download required at runtime). Each camera frame is pre-processed, passed through the model, and the resulting detections are decoded into bounding boxes with class labels and confidence scores.
+3. **Fully local inference** — every step — capture, pre-processing, inference, and post-processing — happens entirely on the device's CPU/GPU/NPU. No data leaves the device.
+4. **Overlay rendering** — detected objects are drawn as bounding-box overlays on the camera preview in real time, giving instant visual feedback.
+
+## Tech Stack
+
+| Technology | Role |
+|---|---|
+| **Kotlin** | Primary language; coroutines for async frame processing |
+| **Android** | Target platform |
+| **YOLO11s** | Compact object detection model — optimised for mobile inference |
+| **CameraX** | Jetpack camera library — live preview and `ImageAnalysis` frames |
+| **On-device inference** | Model runs locally via Android's ML runtime (no server) |
+
+## Why On-Device
+
+Running inference locally rather than sending frames to a cloud API involves real trade-offs:
+
+<CardGroup cols={2}>
+  <Card title="Privacy" icon="shield">
+    No camera frames are transmitted over the network. All image data stays on the device, which is critical for privacy-sensitive environments.
+  </Card>
+  <Card title="Low Latency" icon="bolt">
+    Eliminating the network round-trip removes hundreds of milliseconds of latency, enabling smoother real-time overlays that track with the camera feed.
+  </Card>
+  <Card title="Offline Capability" icon="wifi-slash">
+    On-device models work without any internet connection — useful in environments with poor connectivity or when a stable network cannot be assumed.
+  </Card>
+  <Card title="Resource Constraints" icon="microchip">
+    The trade-off is raw compute power. A YOLO11s model on a mobile CPU/GPU is less powerful than a large server-side model, so accuracy and throughput are constrained by device hardware.
+  </Card>
+</CardGroup>
+
+## Running the Experiment
+
+<Steps>
+  <Step title="Clone the repository">
+    ```bash
+    git clone https://github.com/danielitoCode/Iris.git
+    cd Iris
+    ```
+  </Step>
+  <Step title="Add the YOLO11s model file">
+    The YOLO11s model file is **not bundled** in the repository (due to file size). You will need to obtain and place it manually:
+
+    ```
+    app/src/main/assets/yolo11s.tflite   # expected path — verify in source
+    ```
+
+    Check the repository README or source constants for the exact expected filename and format. You may need to export/convert the model to TFLite format if starting from the original weights.
+
+    <Tip>
+      Pre-converted YOLO TFLite models are sometimes available from the Ultralytics community. Refer to the [Ultralytics documentation](https://docs.ultralytics.com) for export instructions.
+    </Tip>
+  </Step>
+  <Step title="Build the project">
+    Open the project in Android Studio and let Gradle sync. Then build the debug APK:
+
+    ```bash
+    ./gradlew assembleDebug
+    ```
+  </Step>
+  <Step title="Run on a physical device">
+    Iris is best experienced on a **physical Android device**. Camera performance and inference speed on emulators are unreliable. Connect a device via USB with USB debugging enabled and run:
+
+    ```bash
+    adb install app/build/outputs/apk/debug/app-debug.apk
+    ```
+
+    Grant camera permissions when prompted on first launch.
+  </Step>
+</Steps>
+
+<CardGroup cols={1}>
+  <Card
+    title="GitHub — Iris"
+    icon="github"
+    href="https://github.com/danielitoCode/Iris"
+  >
+    Explore the experimental source code, report issues, or follow development on GitHub.
+  </Card>
+</CardGroup>

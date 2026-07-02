@@ -1,0 +1,74 @@
+---
+title: "SatExplorer: Real-Time 3D Satellite Orbit Visualizer"
+sidebarTitle: "SatExplorer"
+description: "SatExplorer renders satellites and orbital paths in real time on Android using the Spatial library, OpenGL ES 3.0, Jetpack Compose, and Koin for dependency injection."
+---
+
+SatExplorer is an immersive Android application that brings satellite orbital mechanics to life in three dimensions. Built on top of the [Spatial](/projects/spatial) declarative 3D rendering library, it renders satellites and their orbital paths in real time, letting users explore the constellation of objects circling Earth with an interactive, touchable 3D interface powered by Jetpack Compose and OpenGL ES 3.0 under the hood.
+
+<Note>
+  SatExplorer requires a device or emulator with **OpenGL ES 3.0** support. Most Android devices manufactured after 2014 meet this requirement, but some low-end or older emulator images may not.
+</Note>
+
+## What It Does
+
+- **Real-time orbit rendering** — orbital paths are calculated and drawn continuously, updating positions as time progresses to reflect accurate satellite motion.
+- **3D satellite models** — each satellite is represented as a 3D mesh rendered by Spatial's OpenGL ES 3.0 backend, with lighting and material shading for depth and realism.
+- **Interactive exploration** — users can rotate, zoom, and pan the 3D scene to inspect individual satellites and their orbital trajectories from any angle.
+- **Compose-driven UI** — overlays, labels, and controls are built entirely in Jetpack Compose, cleanly layered over the Spatial GL surface.
+
+## Tech Stack
+
+| Technology | Role |
+|---|---|
+| **Kotlin** | Primary language; coroutines handle data updates and orbital calculations |
+| **Android** | Target platform |
+| **[Spatial](/projects/spatial)** | Declarative 3D rendering library — scene graph, meshes, lighting |
+| **OpenGL ES 3.0** | GPU rendering backend (via Spatial) |
+| **Jetpack Compose** | UI layer — controls, overlays, and navigation |
+| **Koin** | Dependency injection for ViewModels, repositories, and data sources |
+
+## Running Locally
+
+<Steps>
+  <Step title="Clone the repository">
+    ```bash
+    git clone https://github.com/danielitoCode/SatExplorer.git
+    cd SatExplorer
+    ```
+  </Step>
+  <Step title="Open in Android Studio">
+    Open the cloned directory in Android Studio (Electric Eel or newer recommended). Allow Gradle to sync all dependencies — Spatial will be resolved as a dependency automatically.
+  </Step>
+  <Step title="Select a target with OpenGL ES 3.0 support">
+    Connect a physical Android device or create an AVD in the Device Manager. Ensure the target supports OpenGL ES 3.0:
+
+    - **Physical device** — most devices running Android 5.0+ qualify.
+    - **Emulator** — use an x86\_64 system image with hardware GPU acceleration enabled in AVD settings.
+  </Step>
+  <Step title="Build and run">
+    Press **Run** in Android Studio or use Gradle from the command line:
+
+    ```bash
+    ./gradlew assembleDebug
+    adb install app/build/outputs/apk/debug/app-debug.apk
+    ```
+  </Step>
+</Steps>
+
+<CardGroup cols={2}>
+  <Card
+    title="GitHub — SatExplorer"
+    icon="github"
+    href="https://github.com/danielitoCode/SatExplorer"
+  >
+    Full source code, issues, and contribution guide.
+  </Card>
+  <Card
+    title="Spatial Library"
+    icon="cube"
+    href="/projects/spatial"
+  >
+    Learn about the declarative 3D rendering engine that powers SatExplorer.
+  </Card>
+</CardGroup>

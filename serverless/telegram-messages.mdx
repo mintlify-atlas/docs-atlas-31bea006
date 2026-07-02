@@ -1,0 +1,92 @@
+---
+title: "telegram_messages: Send Telegram Group Messages from Backend"
+sidebarTitle: "Telegram Messages"
+description: "A Node.js serverless function (Appwrite) that sends messages to a Telegram group via the BotFather API — useful for backend notifications and alerts."
+---
+
+telegram_messages is a Node.js serverless function designed to run inside Appwrite Functions, sending automated messages to a Telegram group using the Telegram Bot API. It provides a simple, self-contained way to push notifications from any backend event — no extra infrastructure required beyond an Appwrite project and a Telegram bot.
+
+## Use Cases
+
+<CardGroup cols={2}>
+  <Card title="Deployment Notifications" icon="rocket">
+    Alert your team the moment a new release or function deployment completes.
+  </Card>
+  <Card title="Order Alerts" icon="bell">
+    Notify a group channel in real-time when a new order is placed in your application.
+  </Card>
+  <Card title="Error Reporting" icon="triangle-exclamation">
+    Forward caught exceptions and critical errors to a dedicated Telegram group for immediate triage.
+  </Card>
+  <Card title="Scheduled Summaries" icon="calendar">
+    Run the function on a CRON schedule to deliver daily or weekly digest messages to your team.
+  </Card>
+</CardGroup>
+
+## How It Works
+
+The function is triggered inside Appwrite — either via an HTTP call, a scheduled CRON expression, or an Appwrite event (such as a new document being created). Once triggered, it follows three steps:
+
+<Steps>
+  <Step title="Function is triggered">
+    Appwrite invokes the function based on the configured trigger: an incoming HTTP request, a time-based schedule, or a database/storage event.
+  </Step>
+  <Step title="Read credentials from environment">
+    The function reads `TELEGRAM_BOT_TOKEN` and `TELEGRAM_CHAT_ID` from Appwrite's encrypted environment variable store — no secrets are hardcoded in the source.
+  </Step>
+  <Step title="POST to the Telegram Bot API">
+    A `fetch` call is issued to `https://api.telegram.org/bot<token>/sendMessage` with the target chat ID and the message body. Telegram delivers the message to the group instantly.
+
+    ```javascript sendMessage.js
+    const token = process.env.TELEGRAM_BOT_TOKEN;
+    const chatId = process.env.TELEGRAM_CHAT_ID;
+
+    const response = await fetch(
+      `https://api.telegram.org/bot${token}/sendMessage`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ chat_id: chatId, text: message }),
+      }
+    );
+    ```
+  </Step>
+</Steps>
+
+## Environment Variables
+
+<ParamField query="TELEGRAM_BOT_TOKEN" type="string" required>
+  The token issued by BotFather when you create your Telegram bot. Format: `123456789:ABCdefGhIJKlmNoPQRsTUVwxyZ`.
+</ParamField>
+
+<ParamField query="TELEGRAM_CHAT_ID" type="string" required>
+  The numeric ID of the Telegram group or channel where messages will be sent. You can retrieve this by adding your bot to the group and calling the `getUpdates` API endpoint.
+</ParamField>
+
+## Deploying to Appwrite Functions
+
+<Steps>
+  <Step title="Create a new function in Appwrite Console">
+    In your Appwrite project, navigate to **Functions → Create Function**. Choose **Node.js** as the runtime and configure the trigger type (HTTP, schedule, or event).
+  </Step>
+  <Step title="Set environment variables">
+    In the function's **Settings → Environment Variables** section, add `TELEGRAM_BOT_TOKEN` and `TELEGRAM_CHAT_ID`. Appwrite encrypts these values at rest.
+  </Step>
+  <Step title="Deploy the function code">
+    Push the code to the function either by connecting the GitHub repository directly in the Appwrite Console or by using the Appwrite CLI:
+
+    ```bash
+    appwrite deploy function
+    ```
+
+    Once deployed, you can test the function by triggering it manually from the Console or by calling its HTTP endpoint.
+  </Step>
+</Steps>
+
+<Note>
+  To find your group's `TELEGRAM_CHAT_ID`, add your bot to the group, send any message, and then call `https://api.telegram.org/bot<YOUR_TOKEN>/getUpdates`. The `chat.id` field in the response is the value you need.
+</Note>
+
+## GitHub
+
+View the full source code on GitHub: [danielitoCode/telegram\_messages](https://github.com/danielitoCode/telegram_messages)

@@ -1,0 +1,90 @@
+{
+  "projectType": "general",
+  "projectName": "DanielitoCode",
+  "projectDescription": "Daniel Imbert's developer portfolio — an Android (Kotlin) engineer building scalable mobile apps with Jetpack Compose, OpenGL ES 3D rendering, and Svelte web side projects.",
+  "theme": "luma",
+  "primaryColor": "#9b27eb",
+  "lightColor": "#0e043a",
+  "darkColor": "#7c749c",
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "About",
+        "groups": [
+          {
+            "group": "Introduction",
+            "pages": [
+              "introduction",
+              "tech-stack"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Android Projects",
+        "groups": [
+          {
+            "group": "Released",
+            "pages": [
+              "projects/spatial",
+              "projects/alejotaller",
+              "projects/satexplorer",
+              "projects/deluxe",
+              "projects/iris"
+            ]
+          },
+          {
+            "group": "In Development",
+            "pages": [
+              "projects/appmakeup",
+              "projects/compose-svelted"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Web & Serverless",
+        "groups": [
+          {
+            "group": "Web Frontend",
+            "pages": [
+              "web/dash-alejo-taller"
+            ]
+          },
+          {
+            "group": "Serverless Functions",
+            "pages": [
+              "serverless/starter-function",
+              "serverless/google-auth-appwrite",
+              "serverless/telegram-messages",
+              "serverless/list-users"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "keyFeatures": [
+    "Android development with Kotlin, Jetpack Compose, and clean architecture",
+    "3D rendering engine (Spatial) built on OpenGL ES 3.0 for Android",
+    "On-device AI object detection using YOLO11s (Iris)",
+    "Modular Android architecture with DI (Koin) and local persistence (Room)",
+    "Svelte web frontends with TypeScript and Appwrite BaaS integration",
+    "Cloudflare Workers for lightweight serverless APIs and auth flows",
+    "Kotlin Multiplatform (KMP) exploration with Compose Desktop"
+  ],
+  "publicApiSurface": [
+    "Spatial — declarative 3D rendering library for Android (Compose-style API)",
+    "AlejoTaller — Android app with modular feature/core architecture + Appwrite backend",
+    "SatExplorer — real-time satellite orbit visualizer using Spatial + OpenGL ES 3.0",
+    "Deluxe — Android jewelry catalog/management app (Room + Koin + Appwrite)",
+    "Iris — on-device YOLO11s object detection with CameraX (experimental)",
+    "AppMakeup — architecture-first app scaffolding tool (KMP + Compose Desktop)",
+    "compose_svelted — declarative Svelte UI framework inspired by Jetpack Compose",
+    "dash_alejo_taller — Svelte + Appwrite product management web dashboard",
+    "starter-function — Cloudflare Workers / serverless function starter template",
+    "google_auth_appwrite — Cloudflare Worker for Google OAuth + Appwrite auth flow",
+    "telegram_messages — Node.js serverless function for Telegram Bot API messaging",
+    "list_users — Appwrite serverless function with Admin role access control"
+  ]
+}

@@ -1,0 +1,92 @@
+---
+title: "Spatial: Declarative 3D Rendering Library for Android"
+sidebarTitle: "Spatial"
+description: "Spatial is a declarative 3D rendering library for Android built on OpenGL ES 3.0, inspired by Jetpack Compose's composable paradigm. No-pain OpenGL for Android."
+---
+
+Spatial is a declarative 3D rendering library for Android that brings the composable spirit of Jetpack Compose into the world of real-time 3D graphics. Built on top of OpenGL ES 3.0, Spatial lets you describe 3D scenes in a concise, readable Kotlin API — no wrestling with raw shader setup, buffer management, or GL state machines. If you know how to think in composables, you already know how to think in Spatial.
+
+<Note>
+  Spatial is actively developed and the public API may change between releases. It is not yet recommended for production use without locking to a specific version. Feedback and contributions are welcome on [GitHub](https://github.com/danielitoCode/Spatial).
+</Note>
+
+## Overview
+
+Raw OpenGL on Android is notoriously verbose. Between shader compilation, VAO/VBO setup, matrix math, and the GL state machine, even a spinning cube requires hundreds of lines of boilerplate. Spatial's **"No-Pain OpenGL"** philosophy collapses that complexity into a declarative API surface that mirrors how Jetpack Compose describes UI trees.
+
+Instead of imperatively calling `glDrawArrays` and managing GPU state by hand, you describe *what* your 3D scene should look like and Spatial handles *how* to render it via its OpenGL ES 3.0 backend. This makes 3D Android development approachable for Kotlin developers who are already comfortable with Compose-style thinking.
+
+## Key Features
+
+- **Declarative 3D scene composition** — describe scenes as composable trees rather than imperative GL calls.
+- **Compose Spirit philosophy** — API design mirrors Jetpack Compose conventions so Android developers feel at home immediately.
+- **Kotlin 2.x API** — written for and targeting the Kotlin 2.x compiler toolchain with modern language features throughout.
+- **Android-first** — purpose-built for the Android platform; no cross-platform overhead or abstraction layers.
+- **OpenGL ES 3.0 foundation** — leverages the full power of OpenGL ES 3.0 for modern mobile GPU features including instanced rendering, transform feedback, and MRT.
+
+## Getting Started
+
+### Add the Dependency
+
+Add Spatial to your Android project via Gradle. The coordinates below are illustrative — check the [GitHub repository](https://github.com/danielitoCode/Spatial) for the latest published version.
+
+```kotlin
+// build.gradle.kts (module level)
+dependencies {
+    implementation("io.github.danielitocode:spatial:1.0.0") // example — verify latest version
+}
+```
+
+### Conceptual Usage
+
+The snippet below is **illustrative** and shows the intended declarative style. Exact API signatures are subject to change while the library is in active development.
+
+```kotlin
+// Illustrative example — API may change
+@Composable
+fun MySatelliteScene() {
+    SpatialScene(
+        camera = PerspectiveCamera(
+            fov = 60f,
+            near = 0.1f,
+            far = 1000f
+        )
+    ) {
+        AmbientLight(color = Color.White, intensity = 0.4f)
+        DirectionalLight(
+            direction = Vector3(0f, -1f, -1f),
+            intensity = 0.8f
+        )
+
+        Mesh(
+            model = Models.Sphere,
+            material = PhongMaterial(color = Color(0xFF3DDC84)),
+            transform = Transform(
+                position = Vector3(0f, 0f, -5f),
+                scale = Vector3.One
+            )
+        )
+    }
+}
+```
+
+## Used In
+
+Spatial powers the real-time 3D rendering engine behind [SatExplorer](/projects/satexplorer) — an Android app that visualises satellite orbital paths in three dimensions using OpenGL ES 3.0 and Jetpack Compose.
+
+<CardGroup cols={2}>
+  <Card
+    title="SatExplorer"
+    icon="satellite"
+    href="/projects/satexplorer"
+  >
+    See Spatial in action rendering real-time satellite orbits on Android.
+  </Card>
+  <Card
+    title="GitHub — Spatial"
+    icon="github"
+    href="https://github.com/danielitoCode/Spatial"
+  >
+    Browse the source, open issues, or contribute to the library.
+  </Card>
+</CardGroup>

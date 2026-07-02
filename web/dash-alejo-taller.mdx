@@ -1,0 +1,77 @@
+---
+title: "dash_alejo_taller: Svelte Web Dashboard for AlejoTaller"
+sidebarTitle: "Alejo Taller Dash"
+description: "A Svelte + TypeScript + Appwrite web dashboard that complements the AlejoTaller Android app, providing product management for an electronics store."
+---
+
+dash_alejo_taller is the web companion to the AlejoTaller Android app — a management dashboard for the electronics store, built with Svelte, TypeScript, Vite, and Appwrite as the backend. It gives store managers a browser-based interface to handle product listings and inventory without touching the mobile app directly.
+
+## Features
+
+<CardGroup cols={3}>
+  <Card title="Product Management" icon="box">
+    List, create, update, and remove products for sale directly from the browser.
+  </Card>
+  <Card title="Real-time Data" icon="bolt">
+    Powered by Appwrite's real-time subscriptions — the UI reflects backend changes instantly.
+  </Card>
+  <Card title="Type Safety" icon="shield-check">
+    TypeScript is used throughout the codebase, reducing runtime errors and improving developer confidence.
+  </Card>
+</CardGroup>
+
+## Tech Stack
+
+| Technology | Role |
+|------------|------|
+| **Svelte** | Reactive UI framework — components compile to vanilla JS with minimal runtime overhead |
+| **TypeScript** | Static typing across components, services, and Appwrite models |
+| **Appwrite** | Backend-as-a-Service: database, authentication, storage, and real-time events |
+| **Vite** | Lightning-fast development server and optimised production bundler |
+
+## Relationship to AlejoTaller
+
+dash_alejo_taller and the [AlejoTaller Android app](/projects/alejotaller) share the **same Appwrite project and database**. There is no data duplication or synchronisation step required — both clients read from and write to the same Appwrite collections.
+
+This means any product added, edited, or removed through the web dashboard is immediately visible in the Android app, and vice versa. The shared backend is the single source of truth for inventory, making the two interfaces genuinely complementary rather than parallel systems.
+
+## Setup
+
+<Steps>
+  <Step title="Clone the repository">
+    ```bash
+    git clone https://github.com/danielitoCode/dash_alejo_taller.git
+    cd dash_alejo_taller
+    ```
+  </Step>
+  <Step title="Install dependencies">
+    ```bash
+    npm install
+    ```
+  </Step>
+  <Step title="Configure Appwrite credentials">
+    Create a `.env` file at the project root and fill in your Appwrite project details:
+
+    ```bash .env
+    VITE_APPWRITE_ENDPOINT=https://cloud.appwrite.io/v1
+    VITE_APPWRITE_PROJECT_ID=your_project_id
+    ```
+
+    You can find both values in the **Appwrite Console → Settings** of your project.
+  </Step>
+  <Step title="Start the development server">
+    ```bash
+    npm run dev
+    ```
+
+    Vite will start a local server, typically at `http://localhost:5173`.
+  </Step>
+</Steps>
+
+<Note>
+  The `.env` file is listed in `.gitignore` by default. Never commit your `VITE_APPWRITE_PROJECT_ID` to version control if the project is public.
+</Note>
+
+## GitHub
+
+View the full source code on GitHub: [danielitoCode/dash\_alejo\_taller](https://github.com/danielitoCode/dash_alejo_taller)

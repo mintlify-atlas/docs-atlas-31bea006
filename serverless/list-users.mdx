@@ -1,0 +1,87 @@
+---
+title: "list_users: Admin-Only User Listing Appwrite Function"
+sidebarTitle: "List Users"
+description: "An Appwrite serverless function (Node.js/JavaScript) that lists all registered users, restricted to callers with the Admin role via Appwrite's built-in access control."
+---
+
+list_users is a serverless function running in Appwrite Functions that returns a list of registered users — access is restricted to callers who hold the Admin role, enforced through Appwrite's built-in role-based access control. It provides a safe, auditable way to surface user data to administrators without exposing any public endpoint.
+
+## How It Works
+
+The function uses the Appwrite server-side Node.js SDK to call the Users API. Before any data is returned, it validates that the incoming request carries a key with the appropriate privileges. The Appwrite runtime injects the caller's API key via the `x-appwrite-key` header, and the SDK will throw a `401`/`403` error if the key lacks the required scope — which the function catches and converts into a controlled error response.
+
+```javascript list_users/src/main.js
+import { Client, Users } from 'node-appwrite';
+
+export default async ({ req, res, log, error }) => {
+  const client = new Client()
+    .setEndpoint(process.env.APPWRITE_FUNCTION_API_ENDPOINT)
+    .setProject(process.env.APPWRITE_FUNCTION_PROJECT_ID)
+    .setKey(req.headers['x-appwrite-key'] ?? '');
+
+  const users = new Users(client);
+
+  try {
+    const list = await users.list();
+    return res.json(list);
+  } catch (err) {
+    error(err.message);
+    return res.json({ error: 'Forbidden' }, 403);
+  }
+};
+```
+
+## Access Control
+
+Appwrite supports assigning **labels** to user accounts. This function relies on the `admin` label to identify privileged users. The access-control flow works as follows:
+
+1. **Execution permissions** in the Appwrite Console are set to `Role: Admin` only — unauthenticated users and regular members cannot trigger the function at all.
+2. If a call somehow bypasses the first gate, the SDK key validation provides a second layer: the server-side key must have the `users.read` scope.
+3. Any error from the Users API (unauthorised, insufficient scope) is caught and a `403 Forbidden` response is returned — no stack trace or internal detail is leaked to the caller.
+
+Only users labelled `admin` in Appwrite (set via **Console → Auth → Users → Labels**, or programmatically via the Admin SDK) should be granted execution access to this function.
+
+## Environment Variables
+
+<ParamField query="APPWRITE_FUNCTION_API_ENDPOINT" type="string" required>
+  The base URL of your Appwrite instance. Appwrite injects this automatically for functions running within the same project, e.g. `https://cloud.appwrite.io/v1`.
+</ParamField>
+
+<ParamField query="APPWRITE_FUNCTION_PROJECT_ID" type="string" required>
+  The unique ID of the Appwrite project this function belongs to. Also injected automatically by the Appwrite runtime when deploying within a project.
+</ParamField>
+
+## Deployment
+
+<Steps>
+  <Step title="Clone the repository">
+    ```bash
+    git clone https://github.com/danielitoCode/list_users.git
+    cd list_users
+    ```
+  </Step>
+  <Step title="Create an Appwrite Function">
+    In your Appwrite Console, go to **Functions → Create Function**. Select **Node.js** as the runtime and give the function a name (e.g. `list-users`).
+  </Step>
+  <Step title="Upload the function code">
+    Connect the GitHub repository in the Console for automatic deployments, or use the Appwrite CLI to push manually:
+
+    ```bash
+    appwrite deploy function
+    ```
+  </Step>
+  <Step title="Set environment variables">
+    Under the function's **Settings → Environment Variables**, add `APPWRITE_FUNCTION_API_ENDPOINT` and `APPWRITE_FUNCTION_PROJECT_ID` if they are not already injected by the runtime.
+  </Step>
+  <Step title="Restrict execution permissions to Admin only">
+    In **Settings → Execute Access**, remove all default roles and add only `Role: Admin` (or the specific `label:admin` selector). This ensures that only users carrying the `admin` label can invoke the function.
+  </Step>
+</Steps>
+
+<Warning>
+  Never expose this function to unauthenticated or non-admin callers. Returning a full user list to untrusted callers is a serious data-privacy risk. Always restrict execution permissions to `Role: Admin` (or equivalent) in the Appwrite Console before deploying to production, and audit those permissions whenever project team membership changes.
+</Warning>
+
+## GitHub
+
+View the full source code on GitHub: [danielitoCode/list\_users](https://github.com/danielitoCode/list_users)

@@ -1,0 +1,107 @@
+---
+title: "compose_svelted: Jetpack Compose-Inspired UI Framework for Svelte"
+sidebarTitle: "compose_svelted"
+description: "compose_svelted brings Jetpack Compose's declarative layout, immutable modifiers, and Compose-style navigation to Svelte applications built with TypeScript and Vite."
+---
+
+compose_svelted is a UI framework for Svelte that borrows Jetpack Compose's core ideas — declarative layout composition, immutable modifier chains, and structured navigation — and brings them to the Svelte/TypeScript ecosystem. If you have built Android UIs with Jetpack Compose and found its composability and modifier system intuitive, compose_svelted aims to give you a familiar mental model when working on web frontends with Svelte.
+
+## Core Concepts
+
+### Declarative Layout
+
+In compose_svelted, UI is built by composing components together, not by imperatively manipulating the DOM. Just as Compose functions describe *what* the UI looks like rather than *how* to build it, compose_svelted components declare their structure and Svelte's reactivity handles the rest. There is no manual `document.querySelector` or direct DOM mutation — the layout is a pure function of state.
+
+### Immutable Modifiers
+
+Styling and behaviour are applied through a chain of modifier objects, directly inspired by Jetpack Compose's `Modifier` API. Each call in the chain returns a new modifier instance rather than mutating the existing one, making modifier composition predictable and side-effect-free.
+
+A modifier chain in compose_svelted looks conceptually like this:
+
+```typescript
+const cardModifier = Modifier
+  .padding(16)
+  .background("#FFFFFF")
+  .fillMaxWidth()
+  .clip("8px");
+```
+
+This mirrors the Compose pattern `Modifier.padding(16.dp).background(Color.White).fillMaxWidth().clip(RoundedCornerShape(8.dp))`, making the API immediately recognisable to Android developers.
+
+### Compose-Style Navigation
+
+compose_svelted introduces a structured navigation stack modelled on Jetpack Compose Navigation. Routes are declared as a graph, the navigator maintains a back stack, and transitions between screens are expressed declaratively. This is in contrast to imperative router approaches where the developer directly manipulates history or route state.
+
+## Tech Stack
+
+<CardGroup cols={3}>
+  <Card title="Svelte" icon="code">
+    The component and reactivity foundation. Svelte's compile-time approach produces lean output, and its reactive store system integrates naturally with compose_svelted's state model.
+  </Card>
+  <Card title="TypeScript" icon="shield-check">
+    Full TypeScript support ensures modifier chains, component props, and navigation graphs are type-safe, catching errors at compile time rather than at runtime.
+  </Card>
+  <Card title="Vite" icon="bolt">
+    Vite powers the development server and build pipeline, providing fast HMR during development and optimised production bundles.
+  </Card>
+</CardGroup>
+
+## Getting Started
+
+<Note>
+  compose_svelted is in active development and the API may change. The installation command below is indicative — visit the [GitHub repository](https://github.com/danielitoCode/compose_svelted) for the latest installation instructions and setup guide.
+</Note>
+
+Install the package into your Svelte + Vite project:
+
+```bash
+npm install compose-svelted
+```
+
+Once installed, you can import and use compose_svelted components and the modifier system directly in your Svelte files. Here is a conceptual example of a card component using modifier chaining:
+
+```svelte
+<script lang="ts">
+  import { Box, Text, Modifier } from "compose-svelted";
+
+  const containerMod = Modifier
+    .padding(24)
+    .background("#F5F5F5")
+    .fillMaxWidth()
+    .clip("12px");
+
+  const titleMod = Modifier
+    .padding({ bottom: 8 });
+</script>
+
+<Box modifier={containerMod}>
+  <Text modifier={titleMod} style="headline">Welcome</Text>
+  <Text style="body">
+    This layout is composed declaratively — no DOM manipulation required.
+  </Text>
+</Box>
+```
+
+In this snippet, `Box` and `Text` are compose_svelted layout primitives. The `modifier` prop accepts a modifier chain built with the `Modifier` builder, keeping styling logic separate from template markup and fully type-checked by TypeScript.
+
+## Status
+
+compose_svelted is in active development. The API is evolving as the core concepts are validated against real Svelte use cases. Current work focuses on:
+
+- Stabilising the `Modifier` builder API and its TypeScript types.
+- Defining the standard set of layout primitives (`Box`, `Column`, `Row`, `Text`).
+- Implementing the navigation graph and back-stack manager.
+
+<Warning>
+  The API is **not yet stable**. Breaking changes may occur between releases while the project is in its early development phase.
+</Warning>
+
+<Tip>
+  Daniel's background in Jetpack Compose is the direct inspiration for this project. Head to [/introduction](/introduction) to learn more about his experience with Compose and Android development and to understand the thinking behind compose_svelted's design decisions.
+</Tip>
+
+## Source
+
+The project is open source and hosted on GitHub:
+
+**[github.com/danielitoCode/compose_svelted](https://github.com/danielitoCode/compose_svelted)**

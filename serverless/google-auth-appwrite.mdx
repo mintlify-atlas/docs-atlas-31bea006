@@ -1,0 +1,90 @@
+---
+title: "google_auth_appwrite: Google OAuth Flow via Cloudflare Worker"
+sidebarTitle: "Google Auth"
+description: "A Cloudflare Worker written in TypeScript that implements the Google OAuth 2.0 authorization code flow and exchanges tokens with Appwrite BaaS for session creation."
+---
+
+google_auth_appwrite is a Cloudflare Worker that handles the server-side leg of Google OAuth 2.0 and exchanges the resulting token with Appwrite to create an authenticated session — removing the need for a dedicated backend. By running entirely at the edge, it is lightweight, globally distributed, and costs nothing at low request volumes.
+
+## How It Works
+
+<Steps>
+  <Step title="Initiate the OAuth flow">
+    The user clicks **Sign in with Google** in your app. Your client redirects to the Worker's `/auth` endpoint, which builds the Google consent screen URL (with the correct `client_id`, `redirect_uri`, and `scope`) and redirects the user's browser to it.
+  </Step>
+  <Step title="Google redirects back with an authorization code">
+    After the user grants consent, Google redirects the browser to the `GOOGLE_REDIRECT_URI` you registered in Google Cloud Console. This URI points back to the Worker's `/callback` endpoint, and the authorization code is included as a query parameter.
+  </Step>
+  <Step title="Worker exchanges the code for tokens">
+    The Worker makes a server-to-server `POST` request to Google's token endpoint (`https://oauth2.googleapis.com/token`), exchanging the authorization code for an access token and ID token. The `GOOGLE_CLIENT_SECRET` is used here — it never leaves the Worker environment.
+  </Step>
+  <Step title="Worker creates an Appwrite session">
+    Using the token obtained from Google, the Worker calls Appwrite's OAuth session endpoint (via `APPWRITE_ENDPOINT`). Appwrite validates the token, creates (or retrieves) the corresponding user account, and returns a session. The Worker forwards the session cookie to the client, completing the sign-in flow.
+  </Step>
+</Steps>
+
+## Environment Variables
+
+All sensitive configuration is injected at runtime through Cloudflare Worker secrets. The following variables are required:
+
+<ParamField query="GOOGLE_CLIENT_ID" type="string" required>
+  OAuth 2.0 client ID from Google Cloud Console. Found under **APIs & Services → Credentials**.
+</ParamField>
+
+<ParamField query="GOOGLE_CLIENT_SECRET" type="string" required>
+  OAuth 2.0 client secret paired with `GOOGLE_CLIENT_ID`. Never commit this value to version control.
+</ParamField>
+
+<ParamField query="GOOGLE_REDIRECT_URI" type="string" required>
+  The callback URL registered in Google Cloud Console. Must match exactly — e.g. `https://your-worker.workers.dev/callback`.
+</ParamField>
+
+<ParamField query="APPWRITE_ENDPOINT" type="string" required>
+  The base URL of your Appwrite instance, e.g. `https://cloud.appwrite.io/v1`.
+</ParamField>
+
+<ParamField query="APPWRITE_PROJECT_ID" type="string" required>
+  The unique ID of your Appwrite project. Found in **Appwrite Console → Settings**.
+</ParamField>
+
+## Deployment
+
+<Steps>
+  <Step title="Clone the repository">
+    ```bash
+    git clone https://github.com/danielitoCode/google_auth_appwrite.git
+    cd google_auth_appwrite
+    ```
+  </Step>
+  <Step title="Install dependencies">
+    ```bash
+    npm install
+    ```
+  </Step>
+  <Step title="Set secrets with Wrangler">
+    Add each required secret to the Worker environment. Wrangler will prompt you to paste the value:
+
+    ```bash
+    wrangler secret put GOOGLE_CLIENT_ID
+    wrangler secret put GOOGLE_CLIENT_SECRET
+    wrangler secret put GOOGLE_REDIRECT_URI
+    wrangler secret put APPWRITE_ENDPOINT
+    wrangler secret put APPWRITE_PROJECT_ID
+    ```
+  </Step>
+  <Step title="Deploy to Cloudflare Workers">
+    ```bash
+    wrangler deploy
+    ```
+
+    Wrangler compiles the TypeScript, bundles it, and uploads it to Cloudflare's edge network. The live Worker URL is printed once deployment completes.
+  </Step>
+</Steps>
+
+<Note>
+  Never place `GOOGLE_CLIENT_SECRET` or any other sensitive value directly in `wrangler.toml`. That file is typically committed to version control and would expose your credentials publicly. Always use `wrangler secret put` — secrets are encrypted at rest and injected into the Worker at runtime without appearing in your repository.
+</Note>
+
+## GitHub
+
+View the full source code on GitHub: [danielitoCode/google\_auth\_appwrite](https://github.com/danielitoCode/google_auth_appwrite)

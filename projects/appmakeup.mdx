@@ -1,0 +1,83 @@
+---
+title: "AppMakeup: Architecture-First Android App Scaffolding Tool"
+sidebarTitle: "AppMakeup"
+description: "AppMakeup is a KMP desktop tool that models and generates base Android app structures in a predictable, architecture-first way using Compose Desktop and Kotlin Multiplatform."
+---
+
+AppMakeup is a tooling project that lets developers define and scaffold Android application architecture in a predictable, repeatable way — it is architecture-first. Rather than starting every new project by manually wiring together modules, layers, and boilerplate, AppMakeup encodes those decisions up front and generates the skeleton so you can focus on building features from day one.
+
+## Motivation
+
+Starting a clean, modular Android project from scratch is one of the most repetitive tasks in mobile development. Every team ends up re-creating the same folder structure, the same Gradle module boundaries, the same dependency-injection wiring, and the same navigation scaffolding — often slightly differently each time, which leads to inconsistency across projects.
+
+AppMakeup addresses this by treating architecture as a first-class input. Instead of generating code and hoping it follows best practices, AppMakeup asks you to model your app structure explicitly — modules, layers, dependencies — and then produces a project skeleton that is consistent by construction. Best practices are not suggestions; they are encoded as templates that cannot be accidentally skipped.
+
+## Tech Stack
+
+<CardGroup cols={3}>
+  <Card title="Kotlin" icon="code">
+    The primary language for all logic. Kotlin's expressive type system and DSL capabilities make it ideal for encoding structural rules and generating idiomatic Android code.
+  </Card>
+  <Card title="Kotlin Multiplatform (KMP)" icon="layer-group">
+    KMP powers the shared business logic of AppMakeup itself — the project model, template engine, and code-generation pipeline — so the same core runs on every desktop target without duplication.
+  </Card>
+  <Card title="Compose Desktop" icon="desktop">
+    The UI of AppMakeup is a Compose Desktop application. This gives it a native-feeling, declarative interface on macOS, Windows, and Linux while reusing the Compose mental model that Android developers already know.
+  </Card>
+</CardGroup>
+
+## Status
+
+AppMakeup is actively in development. The core scaffolding engine is being built alongside its Compose Desktop interface. Planned features for the initial release include:
+
+- **Visual app structure editor** — drag-and-drop canvas to define modules, layers (data / domain / presentation), and their relationships before any code is written.
+- **Kotlin code generation** — produces ready-to-compile Gradle modules with correct `build.gradle.kts` files, package structure, and inter-module dependencies pre-wired.
+- **Modular output** — each generated module is self-contained and follows a consistent naming and layering convention, making it straightforward to add or remove modules later.
+
+<Note>
+  AppMakeup is currently in active development. The public API and generated output format are **not yet stable** and may change between versions. Check the [GitHub repository](https://github.com/danielitoCode/AppMakeup) for the latest status before building tooling on top of it.
+</Note>
+
+## Roadmap Ideas
+
+The following capabilities are on the roadmap and inform the current design:
+
+- **Template-based module generation** — choose from opinionated templates (feature module, core module, data module) to generate consistent starting points.
+- **DI setup with Koin** — auto-generate Koin modules and injection bindings for each scaffolded layer, following the patterns established in projects like [AlejoTaller](/projects/alejotaller).
+- **Room scaffold** — generate a Room database module with entities, DAOs, and a database class pre-wired into the dependency graph.
+- **Appwrite integration scaffold** — generate a network/remote data source module pre-configured for Appwrite BaaS, matching the backend setup Daniel uses across his Android projects.
+
+## Getting Started
+
+<Steps>
+  <Step title="Clone the repository">
+    ```bash
+    git clone https://github.com/danielitoCode/AppMakeup.git
+    cd AppMakeup
+    ```
+  </Step>
+  <Step title="Open in IntelliJ IDEA or Android Studio">
+    Open the project root in **IntelliJ IDEA** (recommended for KMP/Compose Desktop projects) or **Android Studio** with the Kotlin Multiplatform plugin installed. Allow Gradle to sync and download dependencies.
+  </Step>
+  <Step title="Run the Compose Desktop target">
+    In the Gradle tool window, navigate to:
+
+    ```
+    Tasks > compose desktop > run
+    ```
+
+    Or execute directly from the terminal:
+
+    ```bash
+    ./gradlew desktopRun
+    ```
+
+    The AppMakeup desktop window will launch on your machine.
+  </Step>
+</Steps>
+
+## Source
+
+The project is open source and hosted on GitHub:
+
+**[github.com/danielitoCode/AppMakeup](https://github.com/danielitoCode/AppMakeup)**

@@ -1,0 +1,87 @@
+---
+title: "starter-function: Cloudflare Workers Serverless Starter Template"
+sidebarTitle: "Starter Function"
+description: "A ready-to-use Cloudflare Workers starter template for lightweight APIs and automations, preconfigured with Wrangler and JavaScript for rapid serverless deployment."
+---
+
+starter-function is a minimal, opinionated starter template for building serverless functions and Cloudflare Workers. It is ideal for lightweight APIs, webhooks, and automation scripts — stripping away boilerplate so you can go from a fresh clone to a live Worker in minutes without fighting configuration files.
+
+## What's Included
+
+<CardGroup cols={3}>
+  <Card title="Wrangler Configuration" icon="gear">
+    A pre-filled `wrangler.toml` with sensible defaults for compatibility date, entrypoint, and environment name.
+  </Card>
+  <Card title="Worker Entry Point" icon="code">
+    A clean JavaScript module export that satisfies the `fetch` handler contract Cloudflare Workers expects.
+  </Card>
+  <Card title="Basic Request Routing" icon="map">
+    A lightweight pattern for branching on `request.url` or `request.method` — easy to extend into a full router.
+  </Card>
+</CardGroup>
+
+## Getting Started
+
+<Steps>
+  <Step title="Clone the repository">
+    ```bash
+    git clone https://github.com/danielitoCode/starter-function.git
+    cd starter-function
+    ```
+  </Step>
+  <Step title="Install Wrangler globally">
+    ```bash
+    npm install -g wrangler
+    ```
+  </Step>
+  <Step title="Authenticate with Cloudflare">
+    ```bash
+    wrangler login
+    ```
+
+    This opens your browser and links Wrangler to your Cloudflare account.
+  </Step>
+  <Step title="Run locally">
+    ```bash
+    wrangler dev
+    ```
+
+    Wrangler starts a local development server that emulates the Workers runtime, available at `http://localhost:8787`.
+  </Step>
+  <Step title="Deploy to Cloudflare Workers">
+    ```bash
+    wrangler deploy
+    ```
+
+    Wrangler bundles and uploads your Worker. Once complete, it prints the live URL (e.g. `https://starter-function.<your-subdomain>.workers.dev`).
+  </Step>
+</Steps>
+
+The minimal Worker included in the template looks like this:
+
+```javascript worker.js
+export default {
+  async fetch(request, env, ctx) {
+    return new Response('Hello from Cloudflare Workers!', {
+      headers: { 'Content-Type': 'text/plain' },
+    });
+  },
+};
+```
+
+## Customising the Template
+
+Once the starter is running you can extend it in several directions:
+
+- **Routes** — Branch on `new URL(request.url).pathname` or use a lightweight router library such as `itty-router` to map paths to handler functions.
+- **Environment bindings** — Declare variables and secrets in `wrangler.toml` under `[vars]`, then access them via the `env` argument in the fetch handler.
+- **KV** — Add a KV namespace binding in `wrangler.toml` (`[[kv_namespaces]]`) for fast key-value storage at the edge.
+- **D1** — Bind a Cloudflare D1 SQLite database (`[[d1_databases]]`) for relational data that lives close to your Workers.
+
+<Tip>
+  For a real-world example of a production Worker that builds directly on this starter pattern, see [google\_auth\_appwrite](/serverless/google-auth-appwrite) — a complete Google OAuth 2.0 flow handled entirely at the edge.
+</Tip>
+
+## GitHub
+
+View the full source code on GitHub: [danielitoCode/starter-function](https://github.com/danielitoCode/starter-function)

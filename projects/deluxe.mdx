@@ -1,0 +1,63 @@
+---
+title: "Deluxe: Android Jewelry Store Catalog & Management App"
+sidebarTitle: "Deluxe"
+description: "Deluxe is an Android app for jewelry stores — catalog browsing, inventory management, and product flows built with Kotlin, Room, Koin, and Appwrite."
+---
+
+Deluxe is a purpose-built Android application designed for jewelry store management and product cataloging. The project focuses on delivering a polished, UI-first experience for browsing and managing a jewelry inventory — from adding new pieces to the catalog to navigating product details and tracking stock. Under the hood it follows the same solid Android architectural patterns seen across DanielitoCode projects: Room for local persistence, Koin for clean dependency injection, and Appwrite as the cloud backend.
+
+## Features
+
+- **Catalog browsing** — a rich product gallery lets store staff and owners scroll through the full jewelry catalog with images, descriptions, and pricing.
+- **Product management UI** — add, edit, and remove products through purpose-designed forms and detail screens built for touch-first interaction.
+- **Inventory flow** — track stock levels and manage product availability directly from the app, with state persisted locally via Room for offline reliability.
+- **UI-focused design** — the project places a deliberate emphasis on interface quality: transitions, layout hierarchy, and visual feedback are treated as first-class concerns alongside the data layer.
+
+## Tech Stack
+
+| Technology | Role |
+|---|---|
+| **Kotlin** | Primary language; coroutines for async data operations |
+| **Android** | Target platform; Jetpack components throughout |
+| **Room** | Local SQLite persistence — products, inventory, and catalog data |
+| **Koin** | Dependency injection — lightweight, Kotlin-idiomatic DI graph |
+| **Appwrite** | BaaS — cloud database, file storage for product images, and auth |
+
+## Setup
+
+<Steps>
+  <Step title="Clone the repository">
+    ```bash
+    git clone https://github.com/danielitoCode/Deluxe.git
+    cd Deluxe
+    ```
+  </Step>
+  <Step title="Configure your Appwrite project">
+    Open (or create) `local.properties` at the project root and add your Appwrite endpoint and project ID:
+
+    ```properties
+    APPWRITE_ENDPOINT=https://cloud.appwrite.io/v1
+    APPWRITE_PROJECT_ID=your_project_id_here
+    ```
+
+    The app reads these values at build time via `BuildConfig`. You will also need to set up the corresponding Appwrite collections and storage buckets to match the app's data model — refer to the repository README for the expected schema.
+  </Step>
+  <Step title="Build and run">
+    Sync Gradle in Android Studio, then run on a connected device or emulator:
+
+    ```bash
+    ./gradlew assembleDebug
+    # or press Run in Android Studio
+    ```
+  </Step>
+</Steps>
+
+<CardGroup cols={1}>
+  <Card
+    title="GitHub — Deluxe"
+    icon="github"
+    href="https://github.com/danielitoCode/Deluxe"
+  >
+    Browse the full source code, file issues, and track development on GitHub.
+  </Card>
+</CardGroup>

@@ -1,72 +1,80 @@
 {
   "$schema": "https://mintlify.com/docs.json",
-  "theme": "mint",
-  "name": "Mintlify Starter Kit",
+  "name": "DanielitoCode",
+  "theme": "luma",
   "colors": {
-    "primary": "#16A34A",
-    "light": "#07C983",
-    "dark": "#15803D"
+    "primary": "#9b27eb",
+    "light": "#0e043a",
+    "dark": "#7c749c"
   },
-  "favicon": "/favicon.svg",
-  "navigation": {
-    "pages": [
-      {
-        "group": "Getting Started",
-        "pages": [
-          "index",
-          "quickstart"
-        ]
-      }
-    ],
-    "global": {
-      "anchors": [
-        {
-          "anchor": "Documentation",
-          "href": "https://mintlify.com/docs",
-          "icon": "book-open-cover"
-        },
-        {
-          "anchor": "Blog",
-          "href": "https://mintlify.com/blog",
-          "icon": "newspaper"
-        }
-      ]
-    }
-  },
-  "logo": {
-    "light": "/logo/light.svg",
-    "dark": "/logo/dark.svg"
-  },
+  "favicon": "https://media.brand.dev/00c95255-7f97-4615-ad0a-90ea02b30d37.jpg",
   "navbar": {
-    "links": [
-      {
-        "label": "Support",
-        "href": "mailto:hi@mintlify.com"
-      }
-    ],
     "primary": {
-      "type": "button",
-      "label": "Dashboard",
-      "href": "https://app.mintlify.com"
+      "type": "github",
+      "href": "https://github.com/danielitoCode/danielitoCode"
     }
-  },
-  "contextual": {
-    "options": [
-      "copy",
-      "view",
-      "chatgpt",
-      "claude",
-      "perplexity",
-      "mcp",
-      "cursor",
-      "vscode"
-    ]
   },
   "footer": {
     "socials": {
-      "x": "https://x.com/mintlify",
-      "github": "https://github.com/mintlify",
-      "linkedin": "https://linkedin.com/company/mintlify"
+      "github": "https://github.com/danielitoCode/danielitoCode"
     }
+  },
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "About",
+        "groups": [
+          {
+            "group": "Introduction",
+            "pages": [
+              "introduction",
+              "tech-stack"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Android Projects",
+        "groups": [
+          {
+            "group": "Released",
+            "pages": [
+              "projects/spatial",
+              "projects/alejotaller",
+              "projects/satexplorer",
+              "projects/deluxe",
+              "projects/iris"
+            ]
+          },
+          {
+            "group": "In Development",
+            "pages": [
+              "projects/appmakeup",
+              "projects/compose-svelted"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Web & Serverless",
+        "groups": [
+          {
+            "group": "Web Frontend",
+            "pages": [
+              "web/dash-alejo-taller"
+            ]
+          },
+          {
+            "group": "Serverless Functions",
+            "pages": [
+              "serverless/starter-function",
+              "serverless/google-auth-appwrite",
+              "serverless/telegram-messages",
+              "serverless/list-users"
+            ]
+          }
+        ]
+      }
+    ]
   }
 }

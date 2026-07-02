@@ -1,0 +1,57 @@
+---
+title: "Languages, Frameworks & Tools Used Across All Projects"
+sidebarTitle: "Tech Stack"
+description: "Full list of languages, frameworks, libraries, and tools Daniel uses: Kotlin, Jetpack Compose, OpenGL ES, Svelte, TypeScript, Appwrite, Cloudflare Workers, and more."
+---
+
+This page documents the complete technology surface behind DanielitoCode's projects — from native Android libraries and Kotlin-first tooling to Svelte web frontends, serverless runtimes, and the design and DevOps utilities that tie everything together. Each technology listed here appears in at least one shipped or active project.
+
+## Mobile (Android / Kotlin)
+
+Android is the core of Daniel's engineering practice. Every mobile project is written in Kotlin, with an emphasis on modern Jetpack APIs and layered, testable architectures. The stack deliberately keeps third-party dependencies minimal and purposeful.
+
+- **Kotlin 2.x** — Primary language for all Android and KMP work; used for its null-safety, coroutines, and expressive type system.
+- **Android SDK** — Target platform for all mobile projects.
+- **Kotlin Multiplatform (KMP)** — Used in *AppMakeUp* (in development) to share logic across platforms via Compose Desktop.
+- **Jetpack Compose** — Declarative UI toolkit used across multiple apps and as the direct inspiration for the *Spatial* library's API design.
+- **Android Jetpack (Room, CameraX, Navigation)** — Room for local persistence in *AlejoTaller* and *Deluxe*; CameraX for the live camera pipeline in *Iris*; Navigation for in-app routing.
+- **Koin** — Lightweight dependency injection framework used in *AlejoTaller*, *SatExplorer*, and *Deluxe*.
+- **Appwrite BaaS** — Backend-as-a-Service providing authentication, databases, and serverless functions; integrated into *AlejoTaller*, *Deluxe*, and several Workers projects.
+- **OpenGL ES 3.0** — Low-level 3D graphics API powering the *Spatial* rendering engine and the *SatExplorer* orbital visualisations.
+
+<CardGroup cols={2}>
+  <Card title="Spatial" icon="cube" href="/projects/spatial">
+    Declarative 3D rendering library for Android — the deepest showcase of the mobile stack.
+  </Card>
+  <Card title="Iris" icon="eye" href="https://github.com/danielitoCode/Iris">
+    On-device YOLO11s object detection with CameraX — no server, no cloud inference.
+  </Card>
+</CardGroup>
+
+## Frontend Web
+
+Daniel's web work is driven by the same declarative philosophy that defines Jetpack Compose. Svelte's compile-time approach and minimal runtime footprint make it a natural fit alongside TypeScript and Vite.
+
+- **HTML5** — Semantic markup baseline for all web projects.
+- **CSS3** — Core styling layer, extended with Sass for larger component trees.
+- **Sass** — Preprocessor used to organise styles with variables, nesting, and mixins.
+- **JavaScript** — Used directly in serverless functions (Cloudflare Workers, Appwrite Functions) and as the compile target for Svelte components.
+- **Svelte** — Component framework for *dash\_alejo\_taller* and the *compose\_svelted* UI library; chosen for its zero-runtime-overhead output and Compose-friendly mental model.
+- **TypeScript** — Adds static typing to Svelte projects (*compose\_svelted*, *google\_auth\_appwrite*) and Cloudflare Worker scripts.
+- **Vite** — Build tool and dev server for all Svelte projects.
+
+## Design & DevTools
+
+Behind every project is a consistent set of tooling for version control, visual design, and deployment.
+
+- **Git** — Version control for every repository hosted on GitHub under [danielitoCode](https://github.com/danielitoCode).
+- **Figma** — UI/UX design and prototyping tool used during the product design phase.
+- **Adobe Photoshop** — Image editing and asset preparation.
+- **Canva** — Quick graphic design for project banners and social assets.
+- **VS Code** — Primary code editor across all web and serverless work.
+- **Cloudflare Workers** — Edge serverless runtime used for lightweight APIs, OAuth flows (*google\_auth\_appwrite*), and starter templates (*starter-function*).
+- **Wrangler** — Cloudflare's CLI for developing, testing, and deploying Workers locally and to production.
+
+<Tip>
+  Want to see the full mobile stack in action in a single project? Head over to [Spatial](/projects/spatial) — it combines Kotlin 2.x, Jetpack Compose API design patterns, and OpenGL ES 3.0 into a cohesive, open-source 3D rendering library for Android.
+</Tip>

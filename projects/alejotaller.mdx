@@ -1,0 +1,85 @@
+---
+title: "AlejoTaller: Modular Android App with Appwrite Backend"
+sidebarTitle: "AlejoTaller"
+description: "AlejoTaller is a Kotlin Android app with modular feature/core architecture, dependency injection with Koin, local persistence with Room, and an Appwrite cloud backend."
+---
+
+AlejoTaller is a Kotlin Android application built for electronics store management. Beyond its day-to-day utility, the project serves as a reference implementation of modern Android architecture practices: a strict separation between feature and core modules, dependency injection via Koin, offline-first local persistence with Room, and a scalable cloud backend powered by Appwrite. It's as much an architecture showcase as it is a functional product.
+
+## Architecture
+
+AlejoTaller is organised around a **modular feature + core** separation that keeps concerns cleanly isolated and enables each feature to be developed, tested, and iterated independently.
+
+- **Feature modules** — each screen or flow (product listing, inventory, orders) lives in its own Gradle module with its own ViewModel, UI, and domain logic.
+- **Core modules** — shared infrastructure such as networking, database access, and Appwrite clients are extracted into `:core` modules consumed by features.
+- **Koin** handles all dependency injection across modules, providing a lightweight, Kotlin-idiomatic DI graph without annotation processing.
+- **Room** persists structured data locally, enabling offline-first behaviour and decoupling the UI from network availability.
+- **Appwrite** acts as the Backend-as-a-Service layer, handling authentication, cloud databases, and file storage without requiring a custom server.
+
+## Tech Stack
+
+| Technology | Role |
+|---|---|
+| **Kotlin** | Primary language; coroutines power all async operations |
+| **Android** | Target platform; Jetpack components used throughout |
+| **Room** | Local SQLite persistence via DAO/Entity abstraction |
+| **Koin** | Dependency injection — modules declared in each Gradle module |
+| **Appwrite** | BaaS — auth, cloud DB collections, and storage buckets |
+
+## Companion Web App
+
+AlejoTaller pairs with **dash\_alejo\_taller**, a Svelte + TypeScript web dashboard backed by the same Appwrite project. Store managers can use the web dashboard to manage product listings and inventory from a browser while the Android app handles the on-the-go mobile experience.
+
+<Card
+  title="dash_alejo_taller — Web Dashboard"
+  icon="browser"
+  href="/web/dash-alejo-taller"
+>
+  The complementary Svelte + Appwrite management dashboard for AlejoTaller.
+</Card>
+
+## Setup
+
+<Steps>
+  <Step title="Clone the repository">
+    ```bash
+    git clone https://github.com/danielitoCode/AlejoTaller.git
+    cd AlejoTaller
+    ```
+  </Step>
+  <Step title="Add Appwrite credentials">
+    Create a `local.properties` file (or use your preferred secrets mechanism) and supply your Appwrite project details:
+
+    ```properties
+    APPWRITE_ENDPOINT=https://cloud.appwrite.io/v1
+    APPWRITE_PROJECT_ID=your_project_id_here
+    ```
+
+    These values are injected at build time via `BuildConfig`. Never commit real credentials to version control.
+  </Step>
+  <Step title="Build and run">
+    Open the project in Android Studio, let Gradle sync complete, then run the app on a connected device or emulator:
+
+    ```bash
+    ./gradlew assembleDebug
+    # or use the Run button in Android Studio
+    ```
+  </Step>
+</Steps>
+
+<CardGroup cols={2}>
+  <Card
+    title="GitHub — AlejoTaller"
+    icon="github"
+    href="https://github.com/danielitoCode/AlejoTaller"
+  >
+    Browse the source code, modules, and architecture on GitHub.
+  </Card>
+  <Card
+    title="Web Dashboard"
+    icon="browser"
+    href="/web/dash-alejo-taller"
+  >
+    Explore the companion Svelte web app.
+  </Card>
+</CardGroup>
