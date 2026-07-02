@@ -1,7 +1,7 @@
 ---
-title: "google_auth_appwrite: Google OAuth Flow via Cloudflare Worker"
+title: "google_auth_appwrite: Google OAuth 2.0 Cloudflare Worker"
 sidebarTitle: "Google Auth"
-description: "A Cloudflare Worker written in TypeScript that implements the Google OAuth 2.0 authorization code flow and exchanges tokens with Appwrite BaaS for session creation."
+description: "A TypeScript Cloudflare Worker implementing the Google OAuth 2.0 authorization code flow and Appwrite BaaS session creation at the edge."
 ---
 
 google_auth_appwrite is a Cloudflare Worker that handles the server-side leg of Google OAuth 2.0 and exchanges the resulting token with Appwrite to create an authenticated session — removing the need for a dedicated backend. By running entirely at the edge, it is lightweight, globally distributed, and costs nothing at low request volumes.

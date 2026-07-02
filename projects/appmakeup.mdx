@@ -1,7 +1,7 @@
 ---
 title: "AppMakeup: Architecture-First Android App Scaffolding Tool"
 sidebarTitle: "AppMakeup"
-description: "AppMakeup is a KMP desktop tool that models and generates base Android app structures in a predictable, architecture-first way using Compose Desktop and Kotlin Multiplatform."
+description: "AppMakeup is a KMP desktop tool that models and generates base Android app structures in a predictable, architecture-first way using Compose Desktop."
 ---
 
 AppMakeup is a tooling project that lets developers define and scaffold Android application architecture in a predictable, repeatable way — it is architecture-first. Rather than starting every new project by manually wiring together modules, layers, and boilerplate, AppMakeup encodes those decisions up front and generates the skeleton so you can focus on building features from day one.
@@ -49,6 +49,10 @@ The following capabilities are on the roadmap and inform the current design:
 
 ## Getting Started
 
+<Note>
+  The steps below are illustrative of the intended workflow. Because AppMakeup is in active development, exact commands and project layout may differ from what is shown here. Always refer to the [GitHub repository](https://github.com/danielitoCode/AppMakeup) for up-to-date setup instructions.
+</Note>
+
 <Steps>
   <Step title="Clone the repository">
     ```bash
@@ -62,7 +66,7 @@ The following capabilities are on the roadmap and inform the current design:
   <Step title="Run the Compose Desktop target">
     In the Gradle tool window, navigate to:
 
-    ```
+    ```text
     Tasks > compose desktop > run
     ```
 
